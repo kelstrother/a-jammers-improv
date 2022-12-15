@@ -1,22 +1,24 @@
-import { useState } from "react";
-import BlogList from './BlogList'
+import { useState, useEffect } from "react";
+import BlogList from "./BlogList";
 
 export default function Home() {
-  const [blogs, setBlogs] = useState([
-    { title: 'How to cope with being the best.', body: 'lorem ipsum...', author: 'jaco', id: 1 },
-    { title: 'Welcome to the party!', body: 'lorem ipsum...', author: 'jaco', id: 2 },
-    { title: 'Being old and in a jamband...', body: 'lorem ipsum...', author: 'joel', id: 3 }
-  ])
+  const [blogs, setBlogs] = useState(null);
 
-  const handleDelete = (id) => {
-    const newBlogs = blogs.filter(blog => blog.id !== id);
-    setBlogs(newBlogs)
-  }
+  useEffect(() => {
+    fetch("http://localhost:8000/blogs")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setBlogs(data);
+      });
+    // dependency array allows useEffect to only re-render 1 time
+  }, []);
 
   return (
     <div className="home">
-     <BlogList blogs={blogs} title="All Improv!" handleDelete={handleDelete} />
-     {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'jaco')} title="Jacos Improv" /> */}
+     {blogs && <BlogList blogs={blogs} title="Unload your mind." />}
+      {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'jaco')} title="Jacos Improv" /> */}
     </div>
   );
 }
