@@ -13,7 +13,7 @@ export default function Home() {
     <div className="home">
       { error && <div>{ error }</div>}
       { isLoading && <div>Loading...</div> }
-      {blogs && <BlogList blogs={blogs} title="Unload your mind." />}
+      {blogs && <BlogList blogs={blogs} title="Everyone's mind puke..." />}
       {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'jaco')} title="Jacos Improv" /> */}
     </div>
   );
