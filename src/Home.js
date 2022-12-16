@@ -1,23 +1,19 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
+import useFetch from "./useFetch";
+
 
 export default function Home() {
-  const [blogs, setBlogs] = useState(null);
+  // grabbing the data, but calling it blogs
+  const { data: blogs, isLoading, error } = useFetch('http://localhost:8000/blogs')
 
-  useEffect(() => {
-    fetch("http://localhost:8000/blogs")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setBlogs(data);
-      });
-    // dependency array allows useEffect to only re-render 1 time
-  }, []);
+  
 
   return (
     <div className="home">
-     {blogs && <BlogList blogs={blogs} title="Unload your mind." />}
+      { error && <div>{ error }</div>}
+      { isLoading && <div>Loading...</div> }
+      {blogs && <BlogList blogs={blogs} title="Unload your mind." />}
       {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'jaco')} title="Jacos Improv" /> */}
     </div>
   );
