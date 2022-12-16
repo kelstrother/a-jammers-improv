@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export default function Create() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("jaco");
   const [isLoading, setIsLoading] = useState(false)
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -19,7 +21,12 @@ export default function Create() {
     }).then(() => {
       console.log('new blog added')
       setIsLoading(false)
+      // sends user back to the previously visited page
+      // history.go(-1)
+      // sends user to homepage
+      history.push('/')
     })
+
   }
 
   return (
